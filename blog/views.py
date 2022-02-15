@@ -10,6 +10,17 @@ from django.shortcuts import redirect, render
 from blog.forms import LikePost, NewPostForm, PostComment
 from blog.models import Comment, Like, Post, PostView
 
+from django.http import HttpResponse
+from django.shortcuts import render
+
+
+def index(request):
+    return render(request, 'blog/index.html', context={
+                      'title ':' my blog home page ', 
+                      'welcome': 'welcome to my blog'
+                  })
+
+
 
 # Create your views here.
 def post_list(request):

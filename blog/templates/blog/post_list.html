@@ -6,7 +6,7 @@
 <div class="row">
   {% for post in posts %}
   <div class="col-sm-4 mb-3">
-    <a href="{% url 'post_views' post.id %}" style="text-decoration: none; color: black">
+    <a href="{% url 'post_view' post.id %}" style="text-decoration: none; color: black">
       <div class="card text-center">
         <div class="card-header w-100 text-left">
           <img width="50rem" src="{% static 'blog/images/default.png' %}" class="rounded" alt="User" />
