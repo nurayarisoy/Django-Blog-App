@@ -1,0 +1,20 @@
+(13 sloc)  542 Bytes
+   
+{% extends 'blog/base.html' %} {% block content %} {% load crispy_forms_tags %}
+
+<h2>Join Today</h2>
+
+{% if request.user.is_authenticated %}
+
+<h3>Thanks for registering</h3>
+
+{% else %}
+
+<h3>Fill out the form please!</h3>
+<form action="" method="post" enctype="multipart/form-data">
+  {% csrf_token %} {{ form_user | crispy }} {{ form_profile | crispy }}
+  <button type="submit" class="btn btn-danger">Register</button>
+</form>
+<hr />
+<p>Already have an account? <a href="{% url 'login' %}">Sign In</a></p>
+{% endif %} {% endblock content %}

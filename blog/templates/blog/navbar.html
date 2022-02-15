@@ -1,0 +1,53 @@
+{% load static %} {% load static %}
+
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="{% url 'home'  %}"><img src="{% static 'blog/images/halbmond.png' %}" alt="halbmond" style="width: 50px; height: 50px" /></a>
+
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        {% comment %} {% url 'home' %} {% endcomment %}
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="">About</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+      {% if request.user.is_authenticated %} {% if request.user.is_superuser %}
+
+      <li class="nav-item active">
+        <a class="nav-link" href="/admin">Admin</a>
+      </li>
+      {% endif %}
+
+      <li class="nav-item active">
+        {% comment %} {% url 'logout' %} {% endcomment %}
+        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+      </li>
+      <li class="nav-item active">
+        {% comment %} {% url 'profile' %} {% endcomment %}
+        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+      </li>
+      <li class="nav-item active">
+        {% comment %} {% url 'create' %} {% endcomment %}
+        <a class="nav-link" href="{% url 'create_post' %}">New Post</a>
+      </li>
+      {% else %}
+
+      <li class="nav-item active">
+        {% comment %} {% url 'user_login' %} {% endcomment %}
+        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+      </li>
+      <li class="nav-item active">
+        {% comment %} {% url 'register' %} {% endcomment %}
+        <a class="nav-link" href=" {% url 'register' %}">Register</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>

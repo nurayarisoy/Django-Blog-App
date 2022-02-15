@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %} {% block content %} {% load static %} {% load crispy_forms_tags %} {% if user_form.errors %}
+<div class="alert alert-danger alert-dismissible" role="alert">
+  <div id="form_errors">
+    {% for key, value in user_form.errors.items %}
+    <strong>{{ value }}</strong>
+    {% endfor %}
+  </div>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+<div class="card" style="padding: 1rem; max-width: 40rem; margin: auto">
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-4">
+        {% if profile_form.instance.profile_pic %}
+        <img width="100rem" style="border-radius: 50%" src="{{ profile_form.instance.profile_pic.url }}" />
+        {% else %}
+        <img width="200rem" src="{% static 'blog/images/default.png' %}" class="rounded" alt="User" />
+        {% endif %}
+      </dt>
+
+      <dd class="col-8 display-4 text-justify">{{ user.username|upper }}</dd>
+    </dl>
+
+    <br />
+    <p class="h5">Profile</p>
+    <hr />
+    <div class="form-content">
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %} {{ user_form | crispy }}
+        <label class="big mb-1">Currently:</label>
+
+        {% if profile_form.instance.profile_pic %}
+
+        <a href="{{ profile_form.instance.profile_pic.url }}">{{ profile_form.instance.profile_pic.url }}</a>
+        {% endif %} {{ profile_form | crispy }}
+        <button type="submit" class="btn btn-outline-success">Update</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

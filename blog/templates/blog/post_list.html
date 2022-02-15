@@ -1,0 +1,41 @@
+{% extends 'blog/base.html' %} {% load static %} {% load bootstrap_icons %} {% load humanize %} {% load custom_tags %} {% block content %}
+<center>
+  <h2 class="mb-3">Django Blog Page</h2>
+</center>
+
+<div class="row">
+  {% for post in posts %}
+  <div class="col-sm-4 mb-3">
+    <a href="{% url 'post_views' post.id %}" style="text-decoration: none; color: black">
+      <div class="card text-center">
+        <div class="card-header w-100 text-left">
+          <img width="50rem" src="{% static 'blog/images/default.png' %}" class="rounded" alt="User" />
+          {{ post.user.username|title }}
+          <span style="position: absolute; right: 10px; z-index: 3" class="badge badge-pill badge-warning">{{ post.category }}</span>
+        </div>
+
+        {% if post.image %}
+
+        <img height="200rem" src="{{ post.image.url }}" class="card-img-top" alt="..." />
+        {% else %}
+
+        <img height="200rem" src="{% static 'blog/images/no-img.jpg' %}" class="card-img-top" alt="..." />
+        {% endif %}
+
+        <div class="card-body">
+          <h5 class="card-title mt-2">{{ post.title|title }}</h5>
+          <p style="height: 3rem" class="card-text font-italic">{{ post.content|truncatewords:10 }}</p>
+        </div>
+        <div style="height: 3rem" class="card-body d-flex align-items-center justify-content-center row">
+          <div class="col-4 row d-flex align-items-center justify-content-center">{% bs_icon 'chat-left' %} <span>&nbsp;{{ comments|cut:post }}</span></div>
+          <div class="col-4 row d-flex align-items-center justify-content-center">{% bs_icon 'eye-fill' %} <span>&nbsp;{{ post_views|cut:post }}</span></div>
+          <div class="col-4 row d-flex align-items-center justify-content-center">{% bs_icon 'heart' %} <span>&nbsp;{{ likes|cut:post }}</span></div>
+        </div>
+        <div class="card-footer text-muted">Published {{ post.publish_date }}</div>
+        <div class="card-footer text-muted">Updated {{ post.last_updated|naturaltime }}</div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}

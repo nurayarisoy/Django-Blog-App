@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %} {% block content %}
+<center>
+  <h2>Post Delete</h2>
+</center>
+<hr />
+<form action="" method="POST">
+  <!-- !csrf_token post işlemi yapılacağı zaman bu token kullanılır. -->
+  {% csrf_token %}
+  <br />
+  Are you sure you want to delete the {{ post.title }} ?
+  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+    <button type="submit" class="btn btn-success">Yes</button>
+    <a href="{% url 'home' %}" style="text-decoration: none"><button type="button" class="btn btn-dark">Cancel</button></a>
+  </div>
+</form>
+{% endblock content %}

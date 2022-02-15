@@ -1,0 +1,18 @@
+{% extends 'blog/base.html' %} {% block content %}
+<div class="card" style="padding: 1rem; max-width: 30rem; margin: auto">
+  <div class="card-body">
+    <center>
+      <h2>Blog Post</h2>
+    </center>
+    <hr />
+    <div class="form-content" style="width: 300px; margin: auto">
+      {% load crispy_forms_tags %}
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %} {{ form | crispy}}
+
+        <button class="btn btn-outline-dark" type="submit">Post</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,30 @@
+{% extends 'blog/base.html' %} {% block content %} {% load static %} {% load crispy_forms_tags %} {% if update_form.errors %}
+<div class="alert alert-danger alert-dismissible" role="alert">
+  <div id="form_errors">
+    {% for key, value in update_form.errors.items %}
+    <strong>{{ value }}</strong>
+    {% endfor %}
+  </div>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+<div class="card" style="padding: 1rem">
+  <div class="card-body">
+    <br />
+    <h3>Post Update</h3>
+    <hr />
+    <div class="form-content">
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %} {% if update_form.instance.post_pic %}
+
+        <a href="{{ update_form.instance.post_pic.url }}">{{ update_form.instance.post_pic.url }}</a>
+        {% endif %} {{ update_form | crispy }}
+        <button type="submit" class="btn btn-outline-success">Update</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

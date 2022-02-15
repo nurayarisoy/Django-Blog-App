@@ -1,0 +1,92 @@
+{% extends 'blog/base.html' %} {% load humanize %} {% block content %} {% load static %} {% load bootstrap_icons %} {% load crispy_forms_tags %} {% if comment_form.errors %}
+<div class="alert alert-danger alert-dismissible" role="alert">
+  <div id="form_errors">
+    {% for key, value in comment_form.errors.items %}
+    <strong>{{ value }}</strong>
+    {% endfor %}
+  </div>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+<div class="card" style="padding: 1rem; max-width: 50rem; margin: auto">
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-4">
+        {% if post.image %}
+
+        <img width="200rem" src="{{ post.image.url }}" />
+        {% else %}
+        <img width="200rem" src="{% static 'blog/images/default.png' %}" />
+
+        {% endif %}
+      </dt>
+
+      <dd class="col-sm-8 display-1 d-flex align-items-center">{{ post.title }}</dd>
+    </dl>
+
+    <br />
+    <h5>{{ post.category }}</h5>
+    <p>{{ post.content }}</p>
+    <hr />
+    <div style="height: 3rem" class="card-body d-flex align-items-center justify-content-center row">
+      <div class="col-7 row">
+        <div class="col-4 row d-flex align-items-center row">{% bs_icon 'chat-left' %} <span>&nbsp;{{ comments_count }}</span></div>
+        <div class="col-4 row d-flex align-items-center row">{% bs_icon 'eye-fill' %} <span>&nbsp;{{ post_views }}</span></div>
+        <div class="col-4 row d-flex align-items-center row">{% bs_icon 'heart' %} <span>&nbsp;{{ likes_count }}</span></div>
+      </div>
+      <div class="col-5">
+        <div class="card-footer text-muted">{{ post.last_updated|naturaltime }}</div>
+      </div>
+    </div>
+    <hr />
+    <div class="card-body">
+      <h5 class="card-title">Enjoy this post? Give it a LIKE!!</h5>
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %} {{ like_form }}
+        <button type="submit" class="btn btn-light">{% bs_icon 'heart' color="red" %}</button>
+      </form>
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="form-content">
+      <h5>Leave a comment below</h5>
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %} {{ comment_form|crispy }}
+        <button type="submit" class="btn btn-outline-success">SEND</button>
+      </form>
+    </div>
+    <hr />
+    <div class="card-body">
+      <h5 class="card-title">Comments</h5>
+
+      {% for comment in comments %}
+      <div class="list-group">
+        <div class="list-group-item list-group-item-action mb-1" aria-current="true">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ comment.user.username }}</h5>
+            <small>{{ comment.publish_date|naturaltime }}</small>
+          </div>
+          <p class="mb-1">{{ comment.content }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <hr />
+
+    {% if user.is_authenticated and user.id == post.user.id %}
+
+    <a href="{% url 'post_update' post.id %}" style="text-decoration: none; color: black">
+      <button type="button" class="btn btn-primary">Edit</button>
+    </a>
+    <a href="{% url 'post_delete' post.id %}" style="text-decoration: none; color: black">
+      <button type="button" class="btn btn-danger">Delete</button>
+    </a>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock content %}
